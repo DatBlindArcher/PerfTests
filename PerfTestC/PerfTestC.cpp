@@ -1,7 +1,9 @@
-#include <iostream>
+#include <stdio.h>
+#include <windows.h>
+#include <sysinfoapi.h>
 
-#define WARMUP 5
-#define SECONDS 10
+const int WARMUP = 5;
+const int SECONDS = 10;
 
 bool IsPrime(int i)
 {
@@ -26,22 +28,22 @@ int GetPrimesUnderN(int n)
 int main()
 {
     int passes = 0;
-    auto tick = clock();
+    auto tick = GetTickCount64();
 
-    while (clock() - tick < WARMUP * CLOCKS_PER_SEC)
+    while ((GetTickCount64() - tick) < WARMUP * 1000)
     {
         auto t = GetPrimesUnderN(10000 - (passes % 10000));
-        if (t > 1229) std::cout << "Incorrect number of primes";
+        if (t > 1229) printf("Incorrect number of primes");
     }
 
-    tick = clock();
+    tick = GetTickCount64();
 
-    while (clock() - tick < SECONDS * CLOCKS_PER_SEC)
+    while ((GetTickCount64() - tick) < SECONDS * 1000)
     {
         auto t = GetPrimesUnderN(10000 - (passes % 10000));
-        if (t > 1229) std::cout << "Incorrect number of primes";
+        if (t > 1229) printf("Incorrect number of primes");
         passes++;
     }
 
-    std::cout << "Passed " << passes << " runs in " << (clock() - tick) / CLOCKS_PER_SEC << " seconds." << std::endl;
+    printf("Passed %i runs in %u seconds", passes, (int)(GetTickCount64() - tick) / 1000);
 }
