@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+const WARMUP = 5;
+const SECONDS = 10;
+
+function main()
+{
+	var passes = 0;
+	var tick = Date.now();
+
+	while (Date.now() - tick < WARMUP * 1000)
+	{
+		var t = GetPrimesUnderN(10000 - (passes % 10000));
+		if (t > 1229) console.error("Incorrect number of primes.");
+	}
+
+	tick = Date.now();
+
+	while (Date.now() - tick < SECONDS * 1000)
+	{
+		var t = GetPrimesUnderN(10000 - (passes % 10000));
+		if (t > 1229) console.error("Incorrect number of primes.");
+		passes++;
+	}
+
+	console.log("Passed " + passes + " runs in " + (Date.now() - tick) / 1000 + " seconds.");
+}
+
+function GetPrimesUnderN(n)
+{
+	var primes = 0;
+
+	for (var i = 2; i < n; i++)
+		if (IsPrime(i))
+			primes++;
+
+	return primes;
+}
+
+function IsPrime(i)
+{
+	for (var j = 2; j < i; j++)
+		if (i % j == 0) 
+			return false;
+
+	return true;
+}
+    </script>
+</body>
+</html>
